@@ -161,7 +161,7 @@
   3},
  {<<"sibyl">>,
   {git,"https://github.com/helium/sibyl.git",
-       {ref,"ae1c6a2f6646da3097d6685264edc74ee913101f"}},
+       {ref,"5fd84deb5ebf0e7f7bdd1d24669601f27dc68014"}},
   0},
  {<<"small_ints">>,{pkg,<<"small_ints">>,<<"0.1.0">>},4},
  {<<"splicer">>,{pkg,<<"splicer">>,<<"0.5.2">>},2},
