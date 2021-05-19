@@ -124,8 +124,6 @@ init_per_testcase(TestCase, Config0) ->
     Txns = InitialVars ++ InitialPayment ++ InitGen,
 
     DKGResults = miner_ct_utils:initial_dkg(Miners, Txns, Addresses, NumConsensusMembers, Curve),
-    ct:pal("DKGResults: ~p", [DKGResults]),
-    %% FIXME RPC commonly times-out for these DKG calls.
     true = lists:all(fun(Res) -> Res == ok end, DKGResults),
 
     timer:sleep(3000),

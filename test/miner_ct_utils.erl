@@ -368,14 +368,23 @@ delete_dirs(DirWildcard, SubDir)->
     ok.
 
 initial_dkg(Miners, Txns, Addresses, NumConsensusMembers, Curve)->
-    initial_dkg(Miners, Txns, Addresses, NumConsensusMembers, Curve, 12000).
+    initial_dkg(Miners, Txns, Addresses, NumConsensusMembers, Curve, 60000).
 initial_dkg(Miners, Txns, Addresses, NumConsensusMembers, Curve, Timeout)->
-    DKGResults = miner_ct_utils:pmap(
-                   fun(Miner) ->
-                           ct_rpc:call(Miner, miner_consensus_mgr, initial_dkg,
-                                       [Txns, Addresses, NumConsensusMembers, Curve], Timeout)
-                   end, Miners),
-    DKGResults.
+    DKG =
+        fun(Miner) ->
+            Result =
+                ct_rpc:call(
+                    Miner,
+                    miner_consensus_mgr,
+                    initial_dkg,
+                    [Txns, Addresses, NumConsensusMembers, Curve],
+                    Timeout
+                ),
+            {Miner, Result}
+        end,
+    ResultPairs = miner_ct_utils:pmap(DKG, Miners),
+    ct:pal("DKGResults: ~p", [ResultPairs]),
+    [R || {_, R} <- ResultPairs].
 
 
 
